@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,9 +15,54 @@ namespace TaskFormApp
 {
     public partial class Form1 : Form
     {
+        public int theke { get; set; } = 0;
         public Form1()
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void BtnDateiLesen_Click(object sender, EventArgs e)
+        {
+            //string data = DateiLesen(); //Sekron
+            string data = await DateiLesenAsync();
+            richTextBox.Text = data.ToString();
+        }
+
+        private void BtnTheke_Click(object sender, EventArgs e)
+        {
+            textBoxTheke.Text = theke++.ToString();
+        }
+        #region Sekron 
+
+        //private string DateiLesen()
+        //{
+        //    string data = string.Empty;
+        //    using(StreamReader streamReader = new StreamReader("Bewerbung.txt"))
+        //    {
+        //        Thread.Sleep(5000);
+        //        data=streamReader.ReadToEnd();
+        //    }
+        //    return data;
+        //}
+        #endregion
+
+        #region Asekron 
+        private async Task<string> DateiLesenAsync()
+        {
+            string data = string.Empty;
+            using(StreamReader streamReader=new StreamReader("Bewerbung.txt"))
+            {
+                Task<string> meineTask= streamReader.ReadToEndAsync();
+                await Task.Delay(5000);
+                data = await meineTask;
+            }
+            return data;
+        }
+        #endregion
     }
 }
