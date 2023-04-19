@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,7 +22,10 @@ namespace TaskFormApp
         private async void BtnDateiLesen_Click(object sender, EventArgs e)
         {
             //string data = DateiLesen(); //Sekron
-            string data = await DateiLesenAsync();
+            string data = String.Empty;
+            Task<String> lese = DateiLesenAsync();
+            richTextBox2.Text = await new HttpClient().GetStringAsync("https://google.com");
+            data = await lese;
             richTextBox.Text = data.ToString();
         }
 
@@ -55,9 +51,9 @@ namespace TaskFormApp
         private async Task<string> DateiLesenAsync()
         {
             string data = string.Empty;
-            using(StreamReader streamReader=new StreamReader("Bewerbung.txt"))
+            using (StreamReader streamReader = new StreamReader("Bewerbung.txt"))
             {
-                Task<string> meineTask= streamReader.ReadToEndAsync();
+                Task<string> meineTask = streamReader.ReadToEndAsync();
                 await Task.Delay(5000);
                 data = await meineTask;
             }
