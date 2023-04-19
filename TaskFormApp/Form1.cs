@@ -48,16 +48,26 @@ namespace TaskFormApp
         #endregion
 
         #region Asekron 
-        private async Task<string> DateiLesenAsync()
+        //private async Task<string> DateiLesenAsync()
+        //{
+        //    string data = string.Empty;
+        //    using (StreamReader streamReader = new StreamReader("Bewerbung.txt"))
+        //    {
+        //        Task<string> meineTask = streamReader.ReadToEndAsync();
+        //        await Task.Delay(5000);
+        //        data = await meineTask;
+        //    }
+        //    return data;
+        //}
+        #endregion
+
+        #region Asekron ohne await
+        private Task<string> DateiLesenAsync()
         {
-            string data = string.Empty;
-            using (StreamReader streamReader = new StreamReader("Bewerbung.txt"))
-            {
-                Task<string> meineTask = streamReader.ReadToEndAsync();
-                await Task.Delay(5000);
-                data = await meineTask;
-            }
-            return data;
+            StreamReader streamReader = new StreamReader("Bewerbung.txt");
+
+            return streamReader.ReadToEndAsync();
+
         }
         #endregion
     }
