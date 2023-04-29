@@ -240,7 +240,7 @@ namespace TaskKonsoleApp
                 Inhalt inhalt = new Inhalt();
                 var daten = await new HttpClient().GetStringAsync(url);
 
-                await Task.Delay(3000); //Thread.Sleep(3000);
+                await Task.Delay(3000); //Thread.Sleep(3000); Sekron
 
                 inhalt.Seite = url;
                 inhalt.Länge = daten.Length;
