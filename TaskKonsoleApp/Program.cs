@@ -201,52 +201,77 @@ using System.Diagnostics;
 #endregion
 
 #region Task Delay
-namespace TaskKonsoleApp
+//namespace TaskKonsoleApp
+//{
+//    public class Inhalt
+//    {
+//        public string Seite { get; set; } = string.Empty;
+//        public int Länge { get; set; }
+
+//    }
+//    internal class Programm
+//    {
+//        static async Task Main(string[] args)
+//        {
+//            await Console.Out.WriteLineAsync("Haupt Thread:" + Thread.CurrentThread.ManagedThreadId);
+//            List<string> urlListe = new List<string>()
+//            {
+//                 "https://www.google.com",
+//                 "https://www.microsoft.com",
+//                 "https://www.amazon.com",
+//                 "https://www.apple.com"
+//            };
+
+//            List<Task<Inhalt>> taskList = new List<Task<Inhalt>>();
+//            urlListe.ToList().ForEach(x =>
+//            {
+//                taskList.Add(RufeInhaltAufAsync(x));
+//            });
+
+//            var inhalte = await Task.WhenAll(taskList.ToArray());
+
+//            inhalte.ToList().ForEach(inhalt =>
+//            {
+//                Console.WriteLine($"{inhalt.Seite.ToString()} - {inhalt.Länge.ToString()}");
+//            });
+
+//            static async Task<Inhalt> RufeInhaltAufAsync(string url)
+//            {
+//                Inhalt inhalt = new Inhalt();
+//                var daten = await new HttpClient().GetStringAsync(url);
+
+//                await Task.Delay(3000); //Thread.Sleep(3000); Sekron
+
+//                inhalt.Seite = url;
+//                inhalt.Länge = daten.Length;
+//                await Console.Out.WriteLineAsync("RufeInhaltAufAsync Thread:" + Thread.CurrentThread.ManagedThreadId);
+//                return inhalt;
+//            }
+//        }
+//    }
+//}
+#endregion
+
+#region
+internal class Program
 {
-    public class Inhalt
-    {
-        public string Seite { get; set; } = string.Empty;
-        public int Länge { get; set; }
+    public static string CacheData { get; set; } = string.Empty;
 
+    private async static Task Main(string[] args)
+    {
+        CacheData = await RufeDateiAufAsync();
+        await Console.Out.WriteLineAsync(CacheData);
     }
-    internal class Programm
+
+    public async static Task<string> RufeDateiAufAsync()
     {
-        static async Task Main(string[] args)
+        if (String.IsNullOrEmpty(CacheData))
         {
-            await Console.Out.WriteLineAsync("Haupt Thread:" + Thread.CurrentThread.ManagedThreadId);
-            List<string> urlListe = new List<string>()
-            {
-                 "https://www.google.com",
-                 "https://www.microsoft.com",
-                 "https://www.amazon.com",
-                 "https://www.apple.com"
-            };
-
-            List<Task<Inhalt>> taskList = new List<Task<Inhalt>>();
-            urlListe.ToList().ForEach(x =>
-            {
-                taskList.Add(RufeInhaltAufAsync(x));
-            });
-
-            var inhalte = await Task.WhenAll(taskList.ToArray());
-
-            inhalte.ToList().ForEach(inhalt =>
-            {
-                Console.WriteLine($"{inhalt.Seite.ToString()} - {inhalt.Länge.ToString()}");
-            });
-
-            static async Task<Inhalt> RufeInhaltAufAsync(string url)
-            {
-                Inhalt inhalt = new Inhalt();
-                var daten = await new HttpClient().GetStringAsync(url);
-
-                await Task.Delay(3000); //Thread.Sleep(3000); Sekron
-
-                inhalt.Seite = url;
-                inhalt.Länge = daten.Length;
-                await Console.Out.WriteLineAsync("RufeInhaltAufAsync Thread:" + Thread.CurrentThread.ManagedThreadId);
-                return inhalt;
-            }
+            return await File.ReadAllTextAsync("Bewerbung.txt");
+        }
+        else
+        {
+            return await Task.FromResult(CacheData);
         }
     }
 }
