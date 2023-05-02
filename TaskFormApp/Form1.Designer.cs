@@ -33,6 +33,8 @@
             this.textBoxTheke = new System.Windows.Forms.TextBox();
             this.BtnDateiLesen = new System.Windows.Forms.Button();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // richTextBox
@@ -62,7 +64,7 @@
             // 
             // BtnDateiLesen
             // 
-            this.BtnDateiLesen.Location = new System.Drawing.Point(656, 294);
+            this.BtnDateiLesen.Location = new System.Drawing.Point(630, 304);
             this.BtnDateiLesen.Name = "BtnDateiLesen";
             this.BtnDateiLesen.Size = new System.Drawing.Size(75, 23);
             this.BtnDateiLesen.TabIndex = 4;
@@ -78,11 +80,27 @@
             this.richTextBox2.TabIndex = 5;
             this.richTextBox2.Text = "";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(406, 20);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(325, 23);
+            this.progressBar1.TabIndex = 7;
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(600, 275);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(131, 23);
+            this.progressBar2.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.progressBar2);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.BtnDateiLesen);
             this.Controls.Add(this.textBoxTheke);
@@ -102,6 +120,8 @@
         private System.Windows.Forms.TextBox textBoxTheke;
         private System.Windows.Forms.Button BtnDateiLesen;
         private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar progressBar2;
     }
 }
 

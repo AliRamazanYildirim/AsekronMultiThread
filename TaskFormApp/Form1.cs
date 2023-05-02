@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,6 +29,13 @@ namespace TaskFormApp
             richTextBox2.Text = await new HttpClient().GetStringAsync("https://google.com");
             data = await lese;
             richTextBox.Text = data.ToString();
+
+            var task1 =  RufeAuf(progressBar1);
+
+            var task2 =  RufeAuf(progressBar2);
+
+            await Task.WhenAll(task1, task2);
+
         }
 
         private void BtnTheke_Click(object sender, EventArgs e)
@@ -68,6 +77,22 @@ namespace TaskFormApp
 
             return streamReader.ReadToEndAsync();
 
+        }
+        #endregion
+
+        #region Task.Run
+
+        public async Task RufeAuf(ProgressBar bar)
+        {
+            await Task.Run(() =>
+            {
+                Enumerable.Range(1, 100).ToList().ForEach(x =>
+                {
+                    Task.Delay(100);
+                    bar.Invoke((MethodInvoker)delegate { bar.Value = x; });
+                });
+            });
+            
         }
         #endregion
     }
