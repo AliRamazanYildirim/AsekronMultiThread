@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Diagnostics;
-#region Task WhenAll 
+#region Task.WhenAll 
 //namespace TaskKonsoleApp
 //{
 //    public class Inhalt
@@ -49,7 +49,7 @@ using System.Diagnostics;
 //}
 #endregion
 
-#region Task WhenAny
+#region Task.WhenAny
 //namespace TaskKonsoleApp
 //{
 //    public class Inhalt
@@ -94,7 +94,7 @@ using System.Diagnostics;
 //}
 #endregion
 
-#region Task WaitAll
+#region Task.WaitAll
 //namespace TaskKonsoleApp
 //{
 //    public class Inhalt
@@ -146,7 +146,7 @@ using System.Diagnostics;
 //}
 #endregion
 
-#region Task WaitAny
+#region Task.WaitAny
 //namespace TaskKonsoleApp
 //{
 //    public class Inhalt
@@ -200,7 +200,7 @@ using System.Diagnostics;
 //}
 #endregion
 
-#region Task Delay
+#region Task.Delay
 //namespace TaskKonsoleApp
 //{
 //    public class Inhalt
@@ -252,29 +252,58 @@ using System.Diagnostics;
 //}
 #endregion
 
-#region Task FromResult
-internal class Program
+#region Task.StartNew
+public class Status
 {
-    public static string CacheData { get; set; } = string.Empty;
-
+    public int ThreadID { get; set; }
+    public DateTime Datum { get; set; }
+}
+public class Program
+{
     private async static Task Main(string[] args)
     {
-        CacheData = await RufeDateiAufAsync();
-        await Console.Out.WriteLineAsync(CacheData);
-    }
+        var meineTask = Task.Factory.StartNew((Obj) =>
+        {
+            Console.WriteLine("Meine Task wurde ausgeführt");
+            var status = Obj as Status;
+            status.ThreadID = Thread.CurrentThread.ManagedThreadId;
+        }, new Status()
+        {
+            Datum = DateTime.Now
+        });
+        await meineTask;
+        Status? status = meineTask.AsyncState as Status;
 
-    public async static Task<string> RufeDateiAufAsync()
-    {
-        if (String.IsNullOrEmpty(CacheData))
-        {
-            return await File.ReadAllTextAsync("Bewerbung.txt");
-        }
-        else
-        {
-            return await Task.FromResult(CacheData);
-        }
+        Console.WriteLine($"Datum: {status.Datum.ToString()}");
+        Console.WriteLine($"ThreadID: {status.ThreadID.ToString()}");
+
     }
 }
+#endregion
+
+#region Task.FromResult
+//internal class Program
+//{
+//    public static string CacheData { get; set; } = string.Empty;
+
+//    private async static Task Main(string[] args)
+//    {
+//        CacheData = await RufeDateiAufAsync();
+//        await Console.Out.WriteLineAsync(CacheData);
+//    }
+
+//    public async static Task<string> RufeDateiAufAsync()
+//    {
+//        if (String.IsNullOrEmpty(CacheData))
+//        {
+//            return await File.ReadAllTextAsync("Bewerbung.txt");
+//        }
+//        else
+//        {
+//            return await Task.FromResult(CacheData);
+//        }
+//    }
+//}
 #endregion
 
 #region Task mit ContinueWith 
