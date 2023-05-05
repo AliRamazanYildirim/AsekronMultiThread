@@ -10,6 +10,8 @@ namespace TaskFormApp
 {
     public partial class Form1 : Form
     {
+        CancellationTokenSource cancellation = new CancellationTokenSource();//Global kann man verwenden
+
         public int theke { get; set; } = 0;
         public Form1()
         {
@@ -20,28 +22,29 @@ namespace TaskFormApp
         {
 
         }
-
-        private async void BtnDateiLesen_Click(object sender, EventArgs e)
-        {
-            //string data = DateiLesen(); //Sekron
-            string data = String.Empty;
-            Task<String> lese = DateiLesenAsync();
-            richTextBox2.Text = await new HttpClient().GetStringAsync("https://google.com");
-            data = await lese;
-            richTextBox.Text = data.ToString();
-
-            var task1 =  RufeAuf(progressBar1);
-
-            var task2 =  RufeAuf(progressBar2);
-
-            await Task.WhenAll(task1, task2);
-
-        }
-
         private void BtnTheke_Click(object sender, EventArgs e)
         {
             textBoxTheke.Text = theke++.ToString();
         }
+        #region Dateilesen
+        //private async void BtnDateiLesen_Click(object sender, EventArgs e)
+        //{
+        //    //string data = DateiLesen(); //Sekron
+        //    string data = String.Empty;
+        //    Task<String> lese = DateiLesenAsync();
+        //    richTextBox2.Text = await new HttpClient().GetStringAsync("https://google.com");
+        //    data = await lese;
+        //    richTextBox.Text = data.ToString();
+
+        //    var task1 =  RufeAuf(progressBar1);
+
+        //    var task2 =  RufeAuf(progressBar2);
+
+        //    await Task.WhenAll(task1, task2);
+
+        //}
+        #endregion
+
         #region Sekron 
 
         //private string DateiLesen()
@@ -95,5 +98,53 @@ namespace TaskFormApp
             
         }
         #endregion
+
+        #region Task.CancellationToken
+
+        private async void BtnDateiLesen_Click(object sender, EventArgs e)
+        {
+            Task<HttpResponseMessage> meineTask;
+
+            try
+            {
+                string data = String.Empty;
+                Task<String> lese = DateiLesenAsync();
+                data = await lese;
+                richTextBox.Text = data.ToString();
+
+                var task1 = RufeAuf(progressBar1);
+
+                var task2 = RufeAuf(progressBar2);
+
+                await Task.WhenAll(task1, task2);
+
+
+
+                meineTask = new HttpClient().GetAsync("https://localhost:7292/api/task", cancellation.Token);
+
+                await meineTask;
+
+                var inhalt = await meineTask.Result.Content.ReadAsStringAsync();
+                richTextBox2.Text = inhalt;
+            }
+            catch (TaskCanceledException exception)
+            {
+                MessageBox.Show(exception.Message);
+                //throw;
+            }
+            catch (Exception ex)
+            {
+                // Verwaltung der verbleibenden Fehler
+                MessageBox.Show("Es ist ein Fehler aufgetreten: " + ex.Message);
+            }
+
+        }
+        private void btnAbbrechen_Click(object sender, EventArgs e)
+        {
+            cancellation.Cancel();
+        }
+        #endregion
+
+
     }
 }

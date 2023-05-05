@@ -35,6 +35,7 @@
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.btnAbbrechen = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBox
@@ -94,11 +95,22 @@
             this.progressBar2.Size = new System.Drawing.Size(131, 23);
             this.progressBar2.TabIndex = 8;
             // 
+            // btnAbbrechen
+            // 
+            this.btnAbbrechen.Location = new System.Drawing.Point(630, 333);
+            this.btnAbbrechen.Name = "btnAbbrechen";
+            this.btnAbbrechen.Size = new System.Drawing.Size(75, 23);
+            this.btnAbbrechen.TabIndex = 9;
+            this.btnAbbrechen.Text = "Abbrechen";
+            this.btnAbbrechen.UseVisualStyleBackColor = true;
+            this.btnAbbrechen.Click += new System.EventHandler(this.btnAbbrechen_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnAbbrechen);
             this.Controls.Add(this.progressBar2);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.richTextBox2);
@@ -122,6 +134,7 @@
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.Button btnAbbrechen;
     }
 }
 
