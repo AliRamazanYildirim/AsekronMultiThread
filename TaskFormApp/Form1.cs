@@ -101,47 +101,57 @@ namespace TaskFormApp
 
         #region CancellationToken-1
 
-        private async void BtnDateiLesen_Click(object sender, EventArgs e)
-        {
-            Task<HttpResponseMessage> meineTask;
+        //private async void BtnDateiLesen_Click(object sender, EventArgs e)
+        //{
+        //    Task<HttpResponseMessage> meineTask;
 
-            try
-            {
-                string data = String.Empty;
-                Task<String> lese = DateiLesenAsync();
-                data = await lese;
-                richTextBox.Text = data.ToString();
+        //    try
+        //    {
+        //        string data = String.Empty;
+        //        Task<String> lese = DateiLesenAsync();
+        //        data = await lese;
+        //        richTextBox.Text = data.ToString();
 
-                var task1 = RufeAuf(progressBar1);
+        //        var task1 = RufeAuf(progressBar1);
 
-                var task2 = RufeAuf(progressBar2);
+        //        var task2 = RufeAuf(progressBar2);
 
-                await Task.WhenAll(task1, task2);
+        //        await Task.WhenAll(task1, task2);
 
 
 
-                meineTask = new HttpClient().GetAsync("https://localhost:7292/api/task", cancellation.Token);
+        //        meineTask = new HttpClient().GetAsync("https://localhost:7292/api/task", cancellation.Token);
 
-                await meineTask;
+        //        await meineTask;
 
-                var inhalt = await meineTask.Result.Content.ReadAsStringAsync();
-                richTextBox2.Text = inhalt;
-            }
-            catch (TaskCanceledException exception)
-            {
-                MessageBox.Show(exception.Message);
-                //throw;
-            }
-            catch (Exception ex)
-            {
-                // Verwaltung der verbleibenden Fehler
-                MessageBox.Show("Es ist ein Fehler aufgetreten: " + ex.Message);
-            }
+        //        var inhalt = await meineTask.Result.Content.ReadAsStringAsync();
+        //        richTextBox2.Text = inhalt;
+        //    }
+        //    catch (TaskCanceledException exception)
+        //    {
+        //        MessageBox.Show(exception.Message);
+        //        //throw;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Verwaltung der verbleibenden Fehler
+        //        MessageBox.Show("Es ist ein Fehler aufgetreten: " + ex.Message);
+        //    }
 
-        }
+        //}
         private void btnAbbrechen_Click(object sender, EventArgs e)
         {
             cancellation.Cancel();
+        }
+        #endregion
+
+        #region Task.Result
+        private  void BtnDateiLesen_Click(object sender, EventArgs e)
+        {
+            var meineTask = new HttpClient().GetStringAsync("https://www.amazon.com");
+            string datei = meineTask.Result;
+
+            richTextBox2.Text = datei;
         }
         #endregion
 

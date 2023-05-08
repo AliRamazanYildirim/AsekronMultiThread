@@ -253,32 +253,32 @@ using System.Diagnostics;
 #endregion
 
 #region Task.StartNew
-public class Status
-{
-    public int ThreadID { get; set; }
-    public DateTime Datum { get; set; }
-}
-public class Program
-{
-    private async static Task Main(string[] args)
-    {
-        var meineTask = Task.Factory.StartNew((Obj) =>
-        {
-            Console.WriteLine("Meine Task wurde ausgeführt");
-            var status = Obj as Status;
-            status.ThreadID = Thread.CurrentThread.ManagedThreadId;
-        }, new Status()
-        {
-            Datum = DateTime.Now
-        });
-        await meineTask;
-        Status? status = meineTask.AsyncState as Status;
+//public class Status
+//{
+//    public int ThreadID { get; set; }
+//    public DateTime Datum { get; set; }
+//}
+//public class Program
+//{
+//    private async static Task Main(string[] args)
+//    {
+//        var meineTask = Task.Factory.StartNew((Obj) =>
+//        {
+//            Console.WriteLine("Meine Task wurde ausgeführt");
+//            var status = Obj as Status;
+//            status.ThreadID = Thread.CurrentThread.ManagedThreadId;
+//        }, new Status()
+//        {
+//            Datum = DateTime.Now
+//        });
+//        await meineTask;
+//        Status? status = meineTask.AsyncState as Status;
 
-        Console.WriteLine($"Datum: {status.Datum.ToString()}");
-        Console.WriteLine($"ThreadID: {status.ThreadID.ToString()}");
+//        Console.WriteLine($"Datum: {status.Datum.ToString()}");
+//        Console.WriteLine($"ThreadID: {status.ThreadID.ToString()}");
 
-    }
-}
+//    }
+//}
 #endregion
 
 #region Task.FromResult
@@ -321,5 +321,40 @@ public class Program
 
 //var daten = await meineTask;
 //Console.WriteLine("Datengrösse:" + daten.Length);
+
+#endregion
+
+#region Task.Result
+namespace TaskKonsoleApp
+{
+    internal class Program
+    {
+        #region Sekron
+        //private async static Task Main(string[] args)
+        //{
+        //    Console.WriteLine(RufeDateiAuf());
+        //}
+
+        //public static string RufeDateiAuf()
+        //{
+        //    var task = new HttpClient().GetStringAsync("https://www.google.com");
+        //    return task.Result;
+        //}
+        #endregion
+
+        #region Asekron
+        //private async static Task Main(string[] args)
+        //{
+        //    Console.WriteLine(await RufeDateiAuf());
+        //}
+        //public static async Task<string> RufeDateiAuf()
+        //{
+        //    var task = new HttpClient().GetStringAsync("https://www.google.com");
+        //    return await task;
+        //}
+        #endregion
+
+    }
+}
 
 #endregion
