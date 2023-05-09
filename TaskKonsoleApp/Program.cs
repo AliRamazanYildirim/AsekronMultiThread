@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 #region Task.WhenAll 
 //namespace TaskKonsoleApp
 //{
@@ -352,6 +353,27 @@ namespace TaskKonsoleApp
         //    var task = new HttpClient().GetStringAsync("https://www.google.com");
         //    return await task;
         //}
+        #endregion
+
+        #region Asekron Task.Result
+        private async static Task Main(string[] args)
+        {
+            await RufeDateiAuf();
+
+            var task = new HttpClient().GetStringAsync("https://www.google.com").ContinueWith((datei) =>
+            {
+                Console.WriteLine(datei.Result);
+            });
+
+            Console.WriteLine(await RufeDateiAuf());
+
+        }
+        public static async Task<string> RufeDateiAuf()
+        {
+            await Task.Delay(5000); // Zum Beispiel 5 Sekunden warten.
+            
+            return "Es wurde eine Datei aufgerufen.";
+        }
         #endregion
 
     }
