@@ -328,8 +328,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 #region Task.Result
 namespace TaskKonsoleApp
 {
-    internal class Program
-    {
+    //internal class Program
+    //{
         #region Sekron
         //private async static Task Main(string[] args)
         //{
@@ -356,27 +356,53 @@ namespace TaskKonsoleApp
         #endregion
 
         #region Asekron Task.Result
-        private async static Task Main(string[] args)
-        {
-            await RufeDateiAuf();
+        //private async static Task Main(string[] args)
+        //{
+        //    await RufeDateiAuf();
 
-            var task = new HttpClient().GetStringAsync("https://www.google.com").ContinueWith((datei) =>
-            {
-                Console.WriteLine(datei.Result);
-            });
+        //    var task = new HttpClient().GetStringAsync("https://www.google.com").ContinueWith((datei) =>
+        //    {
+        //        Console.WriteLine(datei.Result);
+        //    });
 
-            Console.WriteLine(await RufeDateiAuf());
+        //    Console.WriteLine(await RufeDateiAuf());
 
-        }
-        public static async Task<string> RufeDateiAuf()
-        {
-            await Task.Delay(5000); // Zum Beispiel 5 Sekunden warten.
-            
-            return "Es wurde eine Datei aufgerufen.";
-        }
+        //}
+        //public static async Task<string> RufeDateiAuf()
+        //{
+        //    await Task.Delay(5000); // Zum Beispiel 5 Sekunden warten.
+
+        //    return "Es wurde eine Datei aufgerufen.";
+        //}
         #endregion
 
-    }
+    //}
 }
 
+#endregion
+
+#region Task Instance
+namespace TaskKonsoleApp
+{
+    internal class Program
+    {
+        private async static Task Main(string[] args)
+        {
+            try
+            {
+                Task meineTask = Task.Run(() =>
+                {
+                    throw new ArgumentException("Ein Fehler ist aufgetreten");
+                    //Console.WriteLine("Meine Task wurde ausgeführt");
+                });
+                await meineTask;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Der Vorgang ist beendet: {ex.Message}"); 
+            }
+
+        }
+    }
+}
 #endregion
