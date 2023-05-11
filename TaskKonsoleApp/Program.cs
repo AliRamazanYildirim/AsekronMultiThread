@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 #region Task.WhenAll 
 //namespace TaskKonsoleApp
@@ -382,27 +383,61 @@ namespace TaskKonsoleApp
 #endregion
 
 #region Task Instance
+//namespace TaskKonsoleApp
+//{
+//    internal class Program
+//    {
+//        private async static Task Main(string[] args)
+//        {
+//            try
+//            {
+//                Task meineTask = Task.Run(() =>
+//                {
+//                    throw new ArgumentException("Ein Fehler ist aufgetreten");
+//                    //Console.WriteLine("Meine Task wurde ausgeführt");
+//                });
+//                await meineTask;
+//            }
+//            catch (Exception ex)
+//            {
+//                Console.WriteLine($"Der Vorgang ist beendet: {ex.Message}"); 
+//            }
+
+//        }
+//    }
+//}
+#endregion
+
+#region ValueTask
 namespace TaskKonsoleApp
 {
     internal class Program
     {
+        #region Mit Task
+        //public static int zwischenspeicherDaten { get; set; } = 10;
+        //private async static Task Main(string[] args)
+        //{
+        //    await RufeDatenAuf();
+        //}
+        //public static Task<int> RufeDatenAuf()
+        //{
+        //    return Task.FromResult(zwischenspeicherDaten);
+        //} 
+        #endregion
+
+        #region Mit ValueTask
+        public static int cacheDaten { get; set; } = 10;
         private async static Task Main(string[] args)
         {
-            try
-            {
-                Task meineTask = Task.Run(() =>
-                {
-                    throw new ArgumentException("Ein Fehler ist aufgetreten");
-                    //Console.WriteLine("Meine Task wurde ausgeführt");
-                });
-                await meineTask;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Der Vorgang ist beendet: {ex.Message}"); 
-            }
-
+            var meineTask = RufenDatenAuf();
+            var resultat = await meineTask;
+            await Console.Out.WriteLineAsync($"Wert:{resultat}");
         }
+        public static ValueTask<int> RufenDatenAuf()
+        {
+            return new ValueTask<int>(cacheDaten);
+        } 
+        #endregion
     }
 }
 #endregion
