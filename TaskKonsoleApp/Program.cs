@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.X86;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 #region Task.WhenAll 
 //namespace TaskKonsoleApp
@@ -409,35 +411,58 @@ namespace TaskKonsoleApp
 #endregion
 
 #region ValueTask
+//namespace TaskKonsoleApp
+//{
+//    internal class Program
+//    {
+#region Mit Task
+//public static int zwischenspeicherDaten { get; set; } = 10;
+//private async static Task Main(string[] args)
+//{
+//    await RufeDatenAuf();
+//}
+//public static Task<int> RufeDatenAuf()
+//{
+//    return Task.FromResult(zwischenspeicherDaten);
+//} 
+#endregion
+
+#region Mit ValueTask
+//public static int cacheDaten { get; set; } = 10;
+//private async static Task Main(string[] args)
+//{
+//    var meineTask = RufenDatenAuf();
+//    var resultat = await meineTask;
+//    await Console.Out.WriteLineAsync($"Wert:{resultat}");
+//}
+//public static ValueTask<int> RufenDatenAuf()
+//{
+//    return new ValueTask<int>(cacheDaten);
+//}
+#endregion
+//    }
+//}
+#endregion
+
+#region Taskablauf
 namespace TaskKonsoleApp
 {
     internal class Program
-    {
-        #region Mit Task
-        //public static int zwischenspeicherDaten { get; set; } = 10;
-        //private async static Task Main(string[] args)
-        //{
-        //    await RufeDatenAuf();
-        //}
-        //public static Task<int> RufeDatenAuf()
-        //{
-        //    return Task.FromResult(zwischenspeicherDaten);
-        //} 
-        #endregion
-
-        #region Mit ValueTask
-        public static int cacheDaten { get; set; } = 10;
+    { 
         private async static Task Main(string[] args)
         {
+            Console.WriteLine("1.Schritt");
             var meineTask = RufenDatenAuf();
-            var resultat = await meineTask;
-            await Console.Out.WriteLineAsync($"Wert:{resultat}");
+            Console.WriteLine("2.Schritt");
+            var inhalt = await meineTask;
+            Console.WriteLine("3.Schritt:"+inhalt.Length);
+
         }
-        public static ValueTask<int> RufenDatenAuf()
+        public static async Task<string> RufenDatenAuf()
         {
-            return new ValueTask<int>(cacheDaten);
-        } 
-        #endregion
+            var inhalt = await new HttpClient().GetStringAsync("https://www.google.com");
+            return inhalt;
+        }
     }
 }
 #endregion
