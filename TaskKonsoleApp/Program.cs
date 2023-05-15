@@ -445,24 +445,24 @@ namespace TaskKonsoleApp
 #endregion
 
 #region Taskablauf
-namespace TaskKonsoleApp
-{
-    internal class Program
-    { 
-        private async static Task Main(string[] args)
-        {
-            Console.WriteLine("1.Schritt");
-            var meineTask = RufenDatenAuf();
-            Console.WriteLine("2.Schritt");
-            var inhalt = await meineTask;
-            Console.WriteLine("3.Schritt:"+inhalt.Length);
+//namespace TaskKonsoleApp
+//{
+//    internal class Program
+//    { 
+//        private async static Task Main(string[] args)
+//        {
+//            Console.WriteLine("1.Schritt");
+//            var meineTask = RufenDatenAuf();
+//            Console.WriteLine("2.Schritt");
+//            var inhalt = await meineTask;
+//            Console.WriteLine("3.Schritt:"+inhalt.Length);
 
-        }
-        public static async Task<string> RufenDatenAuf()
-        {
-            var inhalt = await new HttpClient().GetStringAsync("https://www.google.com");
-            return inhalt;
-        }
-    }
-}
+//        }
+//        public static async Task<string> RufenDatenAuf()
+//        {
+//            var inhalt = await new HttpClient().GetStringAsync("https://www.google.com");
+//            return inhalt;
+//        }
+//    }
+//}
 #endregion
