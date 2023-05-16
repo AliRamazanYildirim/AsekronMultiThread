@@ -333,51 +333,51 @@ namespace TaskKonsoleApp
 {
     //internal class Program
     //{
-        #region Sekron
-        //private async static Task Main(string[] args)
-        //{
-        //    Console.WriteLine(RufeDateiAuf());
-        //}
+    #region Sekron
+    //private async static Task Main(string[] args)
+    //{
+    //    Console.WriteLine(RufeDateiAuf());
+    //}
 
-        //public static string RufeDateiAuf()
-        //{
-        //    var task = new HttpClient().GetStringAsync("https://www.google.com");
-        //    return task.Result;
-        //}
-        #endregion
+    //public static string RufeDateiAuf()
+    //{
+    //    var task = new HttpClient().GetStringAsync("https://www.google.com");
+    //    return task.Result;
+    //}
+    #endregion
 
-        #region Asekron
-        //private async static Task Main(string[] args)
-        //{
-        //    Console.WriteLine(await RufeDateiAuf());
-        //}
-        //public static async Task<string> RufeDateiAuf()
-        //{
-        //    var task = new HttpClient().GetStringAsync("https://www.google.com");
-        //    return await task;
-        //}
-        #endregion
+    #region Asekron
+    //private async static Task Main(string[] args)
+    //{
+    //    Console.WriteLine(await RufeDateiAuf());
+    //}
+    //public static async Task<string> RufeDateiAuf()
+    //{
+    //    var task = new HttpClient().GetStringAsync("https://www.google.com");
+    //    return await task;
+    //}
+    #endregion
 
-        #region Asekron Task.Result
-        //private async static Task Main(string[] args)
-        //{
-        //    await RufeDateiAuf();
+    #region Asekron Task.Result
+    //private async static Task Main(string[] args)
+    //{
+    //    await RufeDateiAuf();
 
-        //    var task = new HttpClient().GetStringAsync("https://www.google.com").ContinueWith((datei) =>
-        //    {
-        //        Console.WriteLine(datei.Result);
-        //    });
+    //    var task = new HttpClient().GetStringAsync("https://www.google.com").ContinueWith((datei) =>
+    //    {
+    //        Console.WriteLine(datei.Result);
+    //    });
 
-        //    Console.WriteLine(await RufeDateiAuf());
+    //    Console.WriteLine(await RufeDateiAuf());
 
-        //}
-        //public static async Task<string> RufeDateiAuf()
-        //{
-        //    await Task.Delay(5000); // Zum Beispiel 5 Sekunden warten.
+    //}
+    //public static async Task<string> RufeDateiAuf()
+    //{
+    //    await Task.Delay(5000); // Zum Beispiel 5 Sekunden warten.
 
-        //    return "Es wurde eine Datei aufgerufen.";
-        //}
-        #endregion
+    //    return "Es wurde eine Datei aufgerufen.";
+    //}
+    #endregion
 
     //}
 }
@@ -465,4 +465,45 @@ namespace TaskKonsoleApp
 //        }
 //    }
 //}
+#endregion
+
+#region ConfigureAwait
+namespace TaskKonsoleApp
+{
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var result = await AbrufenDateiVonApiAsync();
+            Console.WriteLine(result);
+        }
+
+        public static async Task<string?> AbrufenDateiVonApiAsync()
+        {
+            try
+            {
+                var client = new HttpClient();
+
+
+                var antwort = await client.GetAsync("https://jsonplaceholder.typicode.com/todos/1")
+                                             .ConfigureAwait(false);
+
+                if (!antwort.IsSuccessStatusCode)
+                {
+                    throw new Exception($"Error: {antwort.StatusCode}");
+                }
+
+                var json = await antwort.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                return json;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());// Im Falle eines Fehlers wird der Fehler protokolliert und null zurückgegeben.
+                return null;
+            }
+        }
+    }
+}
 #endregion
