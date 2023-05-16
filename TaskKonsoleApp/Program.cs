@@ -468,42 +468,86 @@ namespace TaskKonsoleApp
 #endregion
 
 #region ConfigureAwait
-namespace TaskKonsoleApp
+//namespace TaskKonsoleApp
+//{
+//    public class Program
+//    {
+//        public static async Task Main(string[] args)
+//        {
+//            var result = await AbrufenDateiVonApiAsync();
+//            Console.WriteLine(result);
+//        }
+
+//        public static async Task<string?> AbrufenDateiVonApiAsync()
+//        {
+//            try
+//            {
+//                var client = new HttpClient();
+
+
+//                var antwort = await client.GetAsync("https://jsonplaceholder.typicode.com/todos/1")
+//                                             .ConfigureAwait(false);
+
+//                if (!antwort.IsSuccessStatusCode)
+//                {
+//                    throw new Exception($"Error: {antwort.StatusCode}");
+//                }
+
+//                var json = await antwort.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+//                return json;
+
+//            }
+//            catch (Exception ex)
+//            {
+//                Console.WriteLine(ex.ToString());// Im Falle eines Fehlers wird der Fehler protokolliert und null zurückgegeben.
+//                return null;
+//            }
+//        }
+//    }
+//}
+#endregion
+
+#region ConfigureAwait-2
+public class Program
 {
-    public class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
-        {
-            var result = await AbrufenDateiVonApiAsync();
-            Console.WriteLine(result);
-        }
+        Console.WriteLine("Thread starten: " + Thread.CurrentThread.ManagedThreadId);
 
-        public static async Task<string?> AbrufenDateiVonApiAsync()
-        {
-            try
-            {
-                var client = new HttpClient();
+        await BeispielAsyncMethod().ConfigureAwait(true);
 
+        Console.WriteLine("Thread in Bearbeitung (ConfigureAwait(true)): " + Thread.CurrentThread.ManagedThreadId);
 
-                var antwort = await client.GetAsync("https://jsonplaceholder.typicode.com/todos/1")
-                                             .ConfigureAwait(false);
+        await BeispielAsyncMethod().ConfigureAwait(false);
 
-                if (!antwort.IsSuccessStatusCode)
-                {
-                    throw new Exception($"Error: {antwort.StatusCode}");
-                }
+        Console.WriteLine("Thread in Bearbeitung (ConfigureAwait(false)): " + Thread.CurrentThread.ManagedThreadId);
 
-                var json = await antwort.Content.ReadAsStringAsync().ConfigureAwait(false);
+        var resultat = await DownloadData();
+        Console.WriteLine(resultat);
+    }
 
-                return json;
+    public static async Task BeispielAsyncMethod()
+    {
+        await Task.Delay(1000); // Wartezeit nur für Beispielzwecke
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());// Im Falle eines Fehlers wird der Fehler protokolliert und null zurückgegeben.
-                return null;
-            }
-        }
+        Console.WriteLine("Thread in BeispielAsyncMethod: " + Thread.CurrentThread.ManagedThreadId);
+    }
+
+    public static async Task<HttpResponseMessage> DownloadData()
+    {
+        HttpClient client = new HttpClient();
+
+        HttpResponseMessage antwort = await client.GetAsync("https://jsonplaceholder.typicode.com/todos/1").ConfigureAwait(false);
+
+        Console.WriteLine("Thread zum Herunterladen von Daten: " + Thread.CurrentThread.ManagedThreadId);
+        return antwort;
+
+        // Sie können mit der Verarbeitung der Daten fortfahren
+
     }
 }
 #endregion
+
+
+
