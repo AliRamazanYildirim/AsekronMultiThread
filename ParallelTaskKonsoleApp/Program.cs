@@ -28,7 +28,7 @@ using System.Diagnostics;
 //            });
 //            stopwatch.Stop();
 
-//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Sekunden beendet.");
+//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden beendet.");
 
 //            stopwatch.Restart();
 //            stopwatch.Start();
@@ -43,7 +43,7 @@ using System.Diagnostics;
 //            });
 //            stopwatch.Stop();
 
-//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Sekunden beendet.");
+//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden beendet.");
 
 //        }
 
@@ -52,12 +52,64 @@ using System.Diagnostics;
 #endregion
 
 #region Parallel.ForEach Mit SixLabors.ImageSharp.Image
+//namespace ParallelTaskKonsoleApp
+//{
+//    internal class Program
+//    {
+//        private static void Main(string[] args)
+//        {
+//            Stopwatch stopwatch = new Stopwatch();
+//            stopwatch.Start();
+
+//            string bildWeg = @"C:\Users\Pro\TPL\";
+
+//            Directory.CreateDirectory(Path.Combine(bildWeg, "vorschauBild"));
+
+//            var daten = Directory.GetFiles(bildWeg);
+
+//            Parallel.ForEach(daten, (artikel) =>
+//            {
+//                Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
+
+//                var image = Image.Load(artikel);
+
+//                image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(50, 50) }));
+//                image.Save(Path.Combine(bildWeg, "vorschauBild", Path.GetFileName(artikel)));
+
+//            });
+
+//            stopwatch.Stop();
+//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden beendet.");
+
+//            stopwatch.Restart();
+//            stopwatch.Start();
+
+//            daten.ToList().ForEach(a =>
+//            {
+//                Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
+
+//                var image = Image.Load(a);
+
+//                image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(50, 50) }));
+//                image.Save(Path.Combine(bildWeg, "vorschauBild", Path.GetFileName(a)));
+
+//            });
+
+//            stopwatch.Stop();
+//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden beendet.");
+//        }
+//    }
+//}
+#endregion
+
+#region Parallel.ForEach-2
 namespace ParallelTaskKonsoleApp
 {
     internal class Program
     {
         private static void Main(string[] args)
         {
+            long dateiByte = 0;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -70,33 +122,12 @@ namespace ParallelTaskKonsoleApp
             Parallel.ForEach(daten, (artikel) =>
             {
                 Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
-
-                var image = Image.Load(artikel);
-
-                image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(50, 50) }));
-                image.Save(Path.Combine(bildWeg, "vorschauBild", Path.GetFileName(artikel)));
-
+                FileInfo datei=new FileInfo(artikel);
+                Interlocked.Add(ref dateiByte, datei.Length);
             });
-
+            Console.WriteLine("Gesamtgröße:" + dateiByte.ToString());
             stopwatch.Stop();
-            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Sekunden beendet.");
-
-            stopwatch.Restart();
-            stopwatch.Start();
-
-            daten.ToList().ForEach(a =>
-            {
-                Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
-
-                var image = Image.Load(a);
-
-                image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(50, 50) }));
-                image.Save(Path.Combine(bildWeg, "vorschauBild", Path.GetFileName(a)));
-
-            });
-
-            stopwatch.Stop();
-            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Sekunden beendet.");
+            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden erledigt.");
         }
     }
 }
