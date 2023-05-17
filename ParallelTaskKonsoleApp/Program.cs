@@ -103,31 +103,85 @@ using System.Diagnostics;
 #endregion
 
 #region Parallel.ForEach-2
-namespace ParallelTaskKonsoleApp
+//namespace ParallelTaskKonsoleApp
+//{
+//    internal class Program
+//    {
+//        private static void Main(string[] args)
+//        {
+//            long dateiByte = 0;
+//            Stopwatch stopwatch = new Stopwatch();
+//            stopwatch.Start();
+
+//            string bildWeg = @"C:\Users\Pro\TPL\";
+
+//            Directory.CreateDirectory(Path.Combine(bildWeg, "vorschauBild"));
+
+//            var daten = Directory.GetFiles(bildWeg);
+
+//            Parallel.ForEach(daten, (artikel) =>
+//            {
+//                Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
+//                FileInfo datei=new FileInfo(artikel);
+//                Interlocked.Add(ref dateiByte, datei.Length);
+//            });
+//            Console.WriteLine("Gesamtgröße:" + dateiByte.ToString());
+//            stopwatch.Stop();
+//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden erledigt.");
+//        }
+//    }
+//}
+#endregion
+
+#region Parallel.ForEach Mit Interlocked.Increment
+class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        private static void Main(string[] args)
+        List<string> productList = new List<string>();
+        int gesamtProdukte = 0;
+
+        // Mehrere Threads erstellen und ausführen
+
+        Thread[] threads = new Thread[3];
+        #region Klassische for-Schleife 
+        //for (int i = 0; i < threads.Length; i++)
+        //{
+        //    Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
+
+        //    threads[i] = new Thread(() => AddProducts(productList, ref totalProducts));
+        //    Console.WriteLine($"Product {i}");
+
+        //    threads[i].Start();
+        //} 
+        #endregion
+
+        Parallel.ForEach(Enumerable.Range(0, threads.Length), thread =>
         {
-            long dateiByte = 0;
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
 
-            string bildWeg = @"C:\Users\Pro\TPL\";
+            threads[thread] = new Thread(() => AddProducts(productList, ref gesamtProdukte));
+            Console.WriteLine($"Product {thread}");
 
-            Directory.CreateDirectory(Path.Combine(bildWeg, "vorschauBild"));
+            threads[thread].Start();
+        });
 
-            var daten = Directory.GetFiles(bildWeg);
+        // Warten, bis alle Vorgänge abgeschlossen sind
+        foreach (Thread thread in threads)
+        {
+            thread.Join();
+        }
 
-            Parallel.ForEach(daten, (artikel) =>
-            {
-                Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
-                FileInfo datei=new FileInfo(artikel);
-                Interlocked.Add(ref dateiByte, datei.Length);
-            });
-            Console.WriteLine("Gesamtgröße:" + dateiByte.ToString());
-            stopwatch.Stop();
-            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden erledigt.");
+        Console.WriteLine("Gesamtzahl der Produkte: " + gesamtProdukte);
+    }
+
+    static void AddProducts(List<string> productList, ref int gesamtProdukte)
+    {
+        for (int i = 1; i <= 1000; i++)
+        {
+            productList.Add($"Product {i}");
+            Interlocked.Increment(ref gesamtProdukte);
+
         }
     }
 }
