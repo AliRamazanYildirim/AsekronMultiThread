@@ -245,15 +245,20 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        Stopwatch stopwatch= new Stopwatch();
+        stopwatch.Start();
+        await Console.Out.WriteLineAsync($"Der Vorgang wurde angefangen.");
         int wert = 0;
         await Task.Run(() =>
         {
-            Parallel.ForEach(Enumerable.Range(1, 1000000), new ParallelOptions { MaxDegreeOfParallelism = 1 }, (x) =>
+            Parallel.ForEach(Enumerable.Range(1, 100000000), new ParallelOptions { MaxDegreeOfParallelism = 1 }, (x) =>
             {
                 Interlocked.Exchange(ref wert, x);
             });
         });
         Console.WriteLine(wert);
+        stopwatch.Stop();
+        await Console.Out.WriteLineAsync($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden beendet.");
     }
 }
 #endregion
