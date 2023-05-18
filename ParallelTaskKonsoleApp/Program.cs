@@ -134,55 +134,70 @@ using System.Diagnostics;
 #endregion
 
 #region Parallel.ForEach Mit Interlocked.Increment
+//class Program
+//{
+//    static void Main(string[] args)
+//    {
+//        List<string> productList = new List<string>();
+//        int gesamtProdukte = 0;
+
+//        // Mehrere Threads erstellen und ausführen
+
+//        Thread[] threads = new Thread[3];
+//        #region Klassische for-Schleife 
+//        //for (int i = 0; i < threads.Length; i++)
+//        //{
+//        //    Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
+
+//        //    threads[i] = new Thread(() => AddProducts(productList, ref totalProducts));
+//        //    Console.WriteLine($"Product {i}");
+
+//        //    threads[i].Start();
+//        //} 
+//        #endregion
+
+//        Parallel.ForEach(Enumerable.Range(0, threads.Length), thread =>
+//        {
+//            Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
+
+//            threads[thread] = new Thread(() => AddProducts(productList, ref gesamtProdukte));
+//            Console.WriteLine($"Product {thread}");
+
+//            threads[thread].Start();
+//        });
+
+//        // Warten, bis alle Vorgänge abgeschlossen sind
+//        foreach (Thread thread in threads)
+//        {
+//            thread.Join();
+//        }
+
+//        Console.WriteLine("Gesamtzahl der Produkte: " + gesamtProdukte);
+//    }
+
+//    static void AddProducts(List<string> productList, ref int gesamtProdukte)
+//    {
+//        for (int i = 1; i <= 1000; i++)
+//        {
+//            productList.Add($"Product {i}");
+//            Interlocked.Increment(ref gesamtProdukte);
+
+//        }
+//    }
+//}
+#endregion
+
+#region Race Condition
 class Program
 {
     static void Main(string[] args)
     {
-        List<string> productList = new List<string>();
-        int gesamtProdukte = 0;
-
-        // Mehrere Threads erstellen und ausführen
-
-        Thread[] threads = new Thread[3];
-        #region Klassische for-Schleife 
-        //for (int i = 0; i < threads.Length; i++)
-        //{
-        //    Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
-
-        //    threads[i] = new Thread(() => AddProducts(productList, ref totalProducts));
-        //    Console.WriteLine($"Product {i}");
-
-        //    threads[i].Start();
-        //} 
-        #endregion
-
-        Parallel.ForEach(Enumerable.Range(0, threads.Length), thread =>
+        int wert = 0;
+        Parallel.ForEach(Enumerable.Range(1, 1000000).ToList(), (x) =>
         {
-            Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
-
-            threads[thread] = new Thread(() => AddProducts(productList, ref gesamtProdukte));
-            Console.WriteLine($"Product {thread}");
-
-            threads[thread].Start();
+            wert = x;
         });
-
-        // Warten, bis alle Vorgänge abgeschlossen sind
-        foreach (Thread thread in threads)
-        {
-            thread.Join();
-        }
-
-        Console.WriteLine("Gesamtzahl der Produkte: " + gesamtProdukte);
-    }
-
-    static void AddProducts(List<string> productList, ref int gesamtProdukte)
-    {
-        for (int i = 1; i <= 1000; i++)
-        {
-            productList.Add($"Product {i}");
-            Interlocked.Increment(ref gesamtProdukte);
-
-        }
+        Console.WriteLine(wert);
     }
 }
 #endregion
