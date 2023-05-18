@@ -220,21 +220,39 @@ using System.Diagnostics;
 #endregion
 
 #region Verhinderung von Wettlaufbedingungen-2(Race Condition)
+//class Program
+//{
+//    static void Main(string[] args)
+//    {
+//        object lockObj = new object();
+//        int wert = 0;
+
+//        Parallel.ForEach(Enumerable.Range(1, 1000000).ToList(), (x) =>
+//        {
+//            lock (lockObj)
+//            {
+//                wert = x;
+//            }
+//        });
+
+//        Console.WriteLine(wert);
+//    }
+//}
+#endregion
+
+#region Verhinderung von Wettlaufbedingungen(Race Condition) mit Task
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        object lockObj = new object();
         int wert = 0;
-
-        Parallel.ForEach(Enumerable.Range(1, 1000000).ToList(), (x) =>
+        await Task.Run(() =>
         {
-            lock (lockObj)
+            Parallel.ForEach(Enumerable.Range(1, 1000000), new ParallelOptions { MaxDegreeOfParallelism = 1 }, (x) =>
             {
-                wert = x;
-            }
+                Interlocked.Exchange(ref wert, x);
+            });
         });
-
         Console.WriteLine(wert);
     }
 }
