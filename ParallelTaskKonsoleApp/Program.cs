@@ -188,16 +188,34 @@ using System.Diagnostics;
 #endregion
 
 #region Race Condition
+//class Program
+//{
+//    static void Main(string[] args)
+//    {
+//        int wert = 0;
+//        Parallel.ForEach(Enumerable.Range(1, 1000000).ToList(), (x) =>
+//        {
+//            wert = x;
+//        });
+//        Console.WriteLine(wert);
+//    }
+//}
+#endregion
+
+#region Verhinderung von Wettlaufbedingungen(Race Condition)
 class Program
 {
     static void Main(string[] args)
     {
         int wert = 0;
+
         Parallel.ForEach(Enumerable.Range(1, 1000000).ToList(), (x) =>
         {
-            wert = x;
+            Interlocked.Exchange(ref wert, x);
         });
+
         Console.WriteLine(wert);
     }
 }
 #endregion
+
