@@ -241,25 +241,57 @@ using System.Diagnostics;
 #endregion
 
 #region Verhinderung von Wettlaufbedingungen(Race Condition) mit Task
-class Program
+//class Program
+//{
+//    static async Task Main(string[] args)
+//    {
+//        Stopwatch stopwatch= new Stopwatch();
+//        stopwatch.Start();
+//        await Console.Out.WriteLineAsync($"Der Vorgang wurde angefangen.");
+//        int wert = 0;
+//        await Task.Run(() =>
+//        {
+//            Parallel.ForEach(Enumerable.Range(1, 100000000), new ParallelOptions { MaxDegreeOfParallelism = 1 }, (x) =>
+//            {
+//                Interlocked.Exchange(ref wert, x);
+//            });
+//        });
+//        Console.WriteLine(wert);
+//        stopwatch.Stop();
+//        await Console.Out.WriteLineAsync($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden beendet.");
+//    }
+//}
+#endregion
+
+
+#region Parallel.For
+namespace ParallelTaskKonsoleApp
 {
-    static async Task Main(string[] args)
+    internal class Program
     {
-        Stopwatch stopwatch= new Stopwatch();
-        stopwatch.Start();
-        await Console.Out.WriteLineAsync($"Der Vorgang wurde angefangen.");
-        int wert = 0;
-        await Task.Run(() =>
+        private static void Main(string[] args)
         {
-            Parallel.ForEach(Enumerable.Range(1, 100000000), new ParallelOptions { MaxDegreeOfParallelism = 1 }, (x) =>
+            long dateiByte = 0;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            string bildWeg = @"C:\Users\Pro\TPL\";
+
+            Directory.CreateDirectory(Path.Combine(bildWeg, "vorschauBild"));
+
+            var daten = Directory.GetFiles(bildWeg);
+
+            Parallel.For(0, daten.Length, (index) =>
             {
-                Interlocked.Exchange(ref wert, x);
+                Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
+                FileInfo datei = new FileInfo(daten[index]);
+                Interlocked.Add(ref dateiByte, datei.Length);
             });
-        });
-        Console.WriteLine(wert);
-        stopwatch.Stop();
-        await Console.Out.WriteLineAsync($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden beendet.");
+
+            Console.WriteLine("Gesamtgröße:" + dateiByte.ToString());
+            stopwatch.Stop();
+            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden erledigt.");
+        }
     }
 }
 #endregion
-
