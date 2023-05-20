@@ -295,9 +295,10 @@ using System.Diagnostics;
 //}
 #endregion
 
+#region Parallel.ForEach/For Local Variables
 class Program
 {
-    static  void Main(string[] args)
+    static void Main(string[] args)
     {
         int total = 0;
         int total1 = 0;
@@ -305,7 +306,7 @@ class Program
         {
             subtotal += x;
             return subtotal;
-        },(y)=>Interlocked.Add(ref total,y));
+        }, (y) => Interlocked.Add(ref total, y));
         Console.WriteLine(total);
 
         Parallel.For(0, 100, () => 0, (x, loop, subtotal) =>
@@ -315,4 +316,5 @@ class Program
         }, (y) => Interlocked.Add(ref total1, y));
         Console.WriteLine(total1);
     }
-}
+} 
+#endregion
