@@ -263,35 +263,56 @@ using System.Diagnostics;
 //}
 #endregion
 
-
 #region Parallel.For
-namespace ParallelTaskKonsoleApp
+//namespace ParallelTaskKonsoleApp
+//{
+//    internal class Program
+//    {
+//        private static void Main(string[] args)
+//        {
+//            long dateiByte = 0;
+//            Stopwatch stopwatch = new Stopwatch();
+//            stopwatch.Start();
+
+//            string bildWeg = @"C:\Users\Pro\TPL\";
+
+//            Directory.CreateDirectory(Path.Combine(bildWeg, "vorschauBild"));
+
+//            var daten = Directory.GetFiles(bildWeg);
+
+//            Parallel.For(0, daten.Length, (index) =>
+//            {
+//                Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
+//                FileInfo datei = new FileInfo(daten[index]);
+//                Interlocked.Add(ref dateiByte, datei.Length);
+//            });
+
+//            Console.WriteLine("Gesamtgröße:" + dateiByte.ToString());
+//            stopwatch.Stop();
+//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden erledigt.");
+//        }
+//    }
+//}
+#endregion
+
+class Program
 {
-    internal class Program
+    static  void Main(string[] args)
     {
-        private static void Main(string[] args)
+        int total = 0;
+        int total1 = 0;
+        Parallel.ForEach(Enumerable.Range(1, 100).ToList(), () => 0, (x, loop, subtotal) =>
         {
-            long dateiByte = 0;
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            subtotal += x;
+            return subtotal;
+        },(y)=>Interlocked.Add(ref total,y));
+        Console.WriteLine(total);
 
-            string bildWeg = @"C:\Users\Pro\TPL\";
-
-            Directory.CreateDirectory(Path.Combine(bildWeg, "vorschauBild"));
-
-            var daten = Directory.GetFiles(bildWeg);
-
-            Parallel.For(0, daten.Length, (index) =>
-            {
-                Console.WriteLine("Threadnummer:" + Thread.CurrentThread.ManagedThreadId);
-                FileInfo datei = new FileInfo(daten[index]);
-                Interlocked.Add(ref dateiByte, datei.Length);
-            });
-
-            Console.WriteLine("Gesamtgröße:" + dateiByte.ToString());
-            stopwatch.Stop();
-            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden erledigt.");
-        }
+        Parallel.For(0, 100, () => 0, (x, loop, subtotal) =>
+        {
+            subtotal += x;
+            return subtotal;
+        }, (y) => Interlocked.Add(ref total1, y));
+        Console.WriteLine(total1);
     }
 }
-#endregion
