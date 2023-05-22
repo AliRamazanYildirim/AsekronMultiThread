@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelTaskKonsoleApp", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelWindowsFormsApp", "ParallelWindowsFormsApp\ParallelWindowsFormsApp.csproj", "{F8B5CF21-0C7B-4717-B7FE-9D582E734896}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLINQKonsoleApp", "PLINQKonsoleApp\PLINQKonsoleApp.csproj", "{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F8B5CF21-0C7B-4717-B7FE-9D582E734896}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8B5CF21-0C7B-4717-B7FE-9D582E734896}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8B5CF21-0C7B-4717-B7FE-9D582E734896}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
