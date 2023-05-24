@@ -201,13 +201,13 @@ namespace TaskKonsoleApp
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             AdventureWorks2019Context kontext = new AdventureWorks2019Context();
-            
+
             kontext.Products.AsParallel().AsOrdered().Where(p => p.ListPrice > 10M).ToList().ForEach(p =>
-                {
-                    Console.WriteLine($"Produktname:{p.Name} - Produktpreis:{p.ListPrice}");
-                });
+            {
+                Console.WriteLine($"Produktname:{p.Name} - Produktpreis:{p.ListPrice}");
+            });
             stopwatch.Stop();
-            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden ausgeführt.");           
+            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden ausgeführt.");
         }
     }
 }
