@@ -90,39 +90,61 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 #endregion
 
 #region PLINQ-Abfrage über Entity schreiben
+//namespace TaskKonsoleApp
+//{
+//    class Program
+//    {
+//        private static void SchreibenProtokollierung(Product p)
+//        {
+//            Console.WriteLine(p.Name+ " wurde protokolliert.");
+//        }
+//        private static void Main(string[] args)
+//        {
+//            AdventureWorks2019Context kontext = new AdventureWorks2019Context();
+
+//            #region Mit AsParallel Methode
+//            //var produkt = (from p in kontext.Products.AsParallel()
+//            //               where p.ListPrice > 10M
+//            //               select p).Take(10);
+//            //produkt.ForAll(p =>
+//            //{
+//            //    Console.WriteLine(p.Name);
+//            //});
+//            #endregion
+
+//            #region Ohne AsParallel Methode
+//            //var produkt = (from p in kontext.Products
+//            //               where p.ListPrice > 10M
+//            //               select p).Take(10);
+//            //produkt.ToList().ForEach(p =>
+//            //{
+//            //    Console.WriteLine(p.Name);
+//            //}); 
+//            #endregion
+
+//            kontext.Products.AsParallel().ForAll(p =>
+//            {
+//                SchreibenProtokollierung(p);
+//            });
+//        }
+//    }
+//}
+#endregion
+
+#region PLINQ WithDegreeOfParalleism Methode
 namespace TaskKonsoleApp
 {
     class Program
     {
         private static void SchreibenProtokollierung(Product p)
         {
-            Console.WriteLine(p.Name+ " wurde protokolliert.");
+            Console.WriteLine(p.Name + $" wurde mit {Thread.CurrentThread.ManagedThreadId}. Thread protokolliert.");
         }
         private static void Main(string[] args)
         {
             AdventureWorks2019Context kontext = new AdventureWorks2019Context();
 
-            #region Mit AsParallel Methode
-            //var produkt = (from p in kontext.Products.AsParallel()
-            //               where p.ListPrice > 10M
-            //               select p).Take(10);
-            //produkt.ForAll(p =>
-            //{
-            //    Console.WriteLine(p.Name);
-            //});
-            #endregion
-
-            #region Ohne AsParallel Methode
-            //var produkt = (from p in kontext.Products
-            //               where p.ListPrice > 10M
-            //               select p).Take(10);
-            //produkt.ToList().ForEach(p =>
-            //{
-            //    Console.WriteLine(p.Name);
-            //}); 
-            #endregion
-
-            kontext.Products.AsParallel().ForAll(p =>
+            kontext.Products.AsParallel().WithDegreeOfParallelism(2).ForAll(p =>
             {
                 SchreibenProtokollierung(p);
             });
