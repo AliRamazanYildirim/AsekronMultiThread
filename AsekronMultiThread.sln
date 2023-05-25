@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskWebAPI", "TaskWebAPI\Ta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskKonsoleApp", "TaskKonsoleApp\TaskKonsoleApp.csproj", "{70E8F66D-8B99-4328-AFFA-0AD92DB43D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelTaskKonsoleApp", "ParallelTaskKonsoleApp\ParallelTaskKonsoleApp.csproj", "{4A90A5C7-FF32-4C18-A001-8A3322E7C481}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelTaskKonsoleApp", "ParallelTaskKonsoleApp\ParallelTaskKonsoleApp.csproj", "{4A90A5C7-FF32-4C18-A001-8A3322E7C481}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelWindowsFormsApp", "ParallelWindowsFormsApp\ParallelWindowsFormsApp.csproj", "{F8B5CF21-0C7B-4717-B7FE-9D582E734896}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLINQKonsoleApp", "PLINQKonsoleApp\PLINQKonsoleApp.csproj", "{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PLINQKonsoleApp", "PLINQKonsoleApp\PLINQKonsoleApp.csproj", "{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLINQFormsApp", "PLINQFormsApp\PLINQFormsApp.csproj", "{D9F1873E-FC37-4480-9BCA-44495C6EFF34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DA91BAE-4CF4-4835-A0A5-89F494C36D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9F1873E-FC37-4480-9BCA-44495C6EFF34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9F1873E-FC37-4480-9BCA-44495C6EFF34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9F1873E-FC37-4480-9BCA-44495C6EFF34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9F1873E-FC37-4480-9BCA-44495C6EFF34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
