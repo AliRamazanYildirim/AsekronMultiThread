@@ -192,20 +192,74 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 #endregion
 
 #region PLINQ AsOrdered Methode
+//namespace TaskKonsoleApp
+//{
+//    class Program
+//    {
+//        private static void Main(string[] args)
+//        {
+//            Stopwatch stopwatch = new Stopwatch();
+//            stopwatch.Start();
+//            AdventureWorks2019Context kontext = new AdventureWorks2019Context();
+
+//            kontext.Products.AsParallel().AsOrdered().Where(p => p.ListPrice > 10M).ToList().ForEach(p =>
+//            {
+//                Console.WriteLine($"Produktname:{p.Name} - Produktpreis:{p.ListPrice}");
+//            });
+//            stopwatch.Stop();
+//            Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden ausgeführt.");
+//        }
+//    }
+//}
+#endregion
+
+#region Exception Handle
 namespace TaskKonsoleApp
 {
     class Program
     {
+        private static bool IstKontroliert(Product p)
+        {
+            try
+            {
+                return p.Name[2] == 'a';
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine($"Ausnahme: Index ist außerhalb des Bereichs");
+                return false;
+            }
+        }
         private static void Main(string[] args)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             AdventureWorks2019Context kontext = new AdventureWorks2019Context();
 
-            kontext.Products.AsParallel().AsOrdered().Where(p => p.ListPrice > 10M).ToList().ForEach(p =>
+            var produkte = kontext.Products.Take(10).ToArray();
+            produkte[5].Name = "?";
+            produkte[4].Name = "?";
+
+            var anfrage = produkte.AsParallel().Where(IstKontroliert);
+            try
             {
-                Console.WriteLine($"Produktname:{p.Name} - Produktpreis:{p.ListPrice}");
-            });
+                anfrage.ForAll(p =>
+                {
+                    Console.WriteLine($"{p.Name}");
+                });
+            }
+            catch (AggregateException ex)
+            {
+
+                ex.InnerExceptions.ToList().ForEach(p =>
+                {
+                    if(p is IndexOutOfRangeException)
+                    {
+                        Console.WriteLine($"Ausnahme: Index ist außerhalb des Bereichs");
+                    }
+                });
+            }
             stopwatch.Stop();
             Console.WriteLine($"Der Vorgang wurde in {stopwatch.ElapsedMilliseconds} Millisekunden ausgeführt.");
         }
